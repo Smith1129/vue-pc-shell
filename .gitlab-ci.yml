@@ -1,0 +1,51 @@
+image: node:10.15.3
+
+before_script:
+  - whoami
+    
+stages:
+  - deploy
+  - release
+  - merge
+  - merge-allen
+  - merge-zwq
+        
+merge-vue001:
+  stage: merge
+  cache:
+    paths:
+    - /var/www/vue/node_modules/
+  script:
+  - cd /var/www/ttz-vue
+  - git checkout master
+  - git config user.email "dazuiba-vue"
+  - git config user.name "dazuiba-vue"
+  - git pull
+  - npm install
+  - npm rebuild node-sass
+  - npm run build
+  - cp -r /var/www/ttz-vue/dist /var/www/ttz-web/ttz-web/Public/
+  only:
+  - master
+  tags:
+    - docker-runner-vue001
+ 
+merge-vue002:
+  stage: merge
+  cache:
+    paths:
+    - /var/www/vue/node_modules/
+  script:
+  - cd /var/www/ttz-vue
+  - git checkout master
+  - git config user.email "dazuiba-vue"
+  - git config user.name "dazuiba-vue"
+  - git pull
+  - npm install
+  - npm rebuild node-sass
+  - npm run build
+  - cp -r /var/www/ttz-vue/dist /var/www/ttz-web/ttz-web/Public/
+  only:
+  - master
+  tags:
+    - docker-runner-vue002
